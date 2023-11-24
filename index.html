@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time Python Terminal</title>
+</head>
+<body>
+    <textarea id="code" rows="10" cols="50" placeholder="Enter Python code..."></textarea>
+    <button onclick="executeCode()">Execute</button>
+    <div id="result"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.js"></script>
+    <script>
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        function executeCode() {
+            var code = document.getElementById('code').value;
+            socket.emit('execute_code', {'code': code});
+        }
+
+        socket.on('execution_result', function(data) {
+            document.getElementById('result').innerText = 'Result: ' + data.result;
+        });
+    </script>
+</body>
+</html>
