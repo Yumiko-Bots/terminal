@@ -11,12 +11,10 @@ def index():
 @socketio.on('execute_code')
 def execute_code(data):
     try:
-        # Execute the Python code
         result = str(eval(data['code']))
     except Exception as e:
         result = str(e)
-    # Send the result back to the client
     socketio.emit('execution_result', {'result': result})
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True)
+    socketio.run(app, debug=True, port=5000)
